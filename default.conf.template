@@ -9,5 +9,6 @@ server {
   location / {
         proxy_pass https://front-droplinkfy.herokuapp.com/;
         proxy_set_header Cookie $http_cookie;
+        proxy_set_header X-Forwarded-Proto $scheme
     }
 }
