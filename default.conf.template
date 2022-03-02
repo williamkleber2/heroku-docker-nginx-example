@@ -5,4 +5,12 @@ server {
     root   /usr/share/nginx/html;
     index  index.html index.htm;
   }
+
+  location /about{
+        proxy_pass https://droplinkfy.vercel.app/;
+    }
+
+  location /login{
+        proxy_pass https://droplinkfy.vercel.app/;
+    }
 }

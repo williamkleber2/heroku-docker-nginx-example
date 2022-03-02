@@ -1,7 +1,7 @@
 {
   "name": "heroku-docker-nginx-example",
   "description": "A barebones nginx installation using Docker",
-  "repository": "https://github.com/rjoonas/heroku-docker-nginx-example",
+  "repository": "https://github.com/williamkleber1/heroku-docker-nginx-example",
   "logo": "https://upload.wikimedia.org/wikipedia/commons/c/c5/Nginx_logo.svg",
   "keywords": ["nginx", "docker", "proxy"],
   "stack": "container"
