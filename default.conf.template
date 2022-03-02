@@ -11,6 +11,6 @@ server {
         proxy_set_header Cookie $http_cookie;
         
         # Proxy headers
-        proxy_set_header X-Forwarded-Protocol https;
+        proxy_set_header X-Forwarded-Proto $scheme
     }
 }
