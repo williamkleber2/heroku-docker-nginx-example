@@ -2,8 +2,8 @@ server {
   listen $PORT default_server;
 
 
-  location /about{
-        proxy_pass https://droplinkfy.vercel.app/;
+  location /about {
+        proxy_pass https://droplinkfy.vercel.app/about;
     }
 
   location / {
