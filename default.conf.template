@@ -13,4 +13,8 @@ server {
         # Proxy headers
         proxy_set_header X-Forwarded-Proto $scheme;
     }
+
+    location /desenvolvimento/api{
+      proxy_pass https://sume.lccv.ufal.br/desenvolvimento/api;
+    }
 }
