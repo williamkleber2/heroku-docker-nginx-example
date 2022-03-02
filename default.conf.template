@@ -8,11 +8,11 @@ server {
 
   location / {
         proxy_pass https://front-droplinkfy.herokuapp.com/;
-        proxy_set_header X-Forwarded-Protocol https;
-        proxy_set_header Cookie $http_cookie;
+        #proxy_set_header X-Forwarded-Protocol https;
+        #proxy_set_header Cookie $http_cookie;
         
         # Proxy headers
-        proxy_set_header X-Forwarded-Proto $scheme;
+        #proxy_set_header X-Forwarded-Proto $scheme;
     }
 
     location /desenvolvimento/api{
