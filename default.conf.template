@@ -11,6 +11,6 @@ server {
     }
 
   location /login{
-        proxy_pass https://droplinkfy.vercel.app/;
+        proxy_pass https://front-droplinkfy.herokuapp.com/login/;
     }
 }
