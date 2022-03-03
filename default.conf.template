@@ -1,21 +1,12 @@
 server {
   listen $PORT default_server;
 
-
+  
   location /about {
         proxy_pass https://droplinkfy.vercel.app/about;
     }
 
   location / {
         proxy_pass https://front-droplinkfy.herokuapp.com/;
-        #proxy_set_header X-Forwarded-Protocol https;
-        #proxy_set_header Cookie $http_cookie;
-        
-        # Proxy headers
-        #proxy_set_header X-Forwarded-Proto $scheme;
-    }
-
-    location /desenvolvimento/api{
-      proxy_pass https://sume.lccv.ufal.br/desenvolvimento/api;
     }
 }
