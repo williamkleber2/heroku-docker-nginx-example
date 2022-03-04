@@ -26,7 +26,9 @@ ALLOWED_HOSTS = ['127.0.0.1',
                 'dev.droplinkfy.com',
                 'dev-droplinkfy.herokuapp.com',
                 'front-droplinkfy.herokuapp.com',
-                'https://droplinkfy-nginx.herokuapp.com']
+                'https://droplinkfy-nginx.herokuapp.com',
+                'droplinkfy-nginx.herokuapp.com'
+                ]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
