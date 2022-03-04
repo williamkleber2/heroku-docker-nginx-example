@@ -11,10 +11,10 @@ server {
 
   
   location /about {
-        proxy_pass http://frontend;
+        proxy_pass frontend;
     }
 
   location / {
-        proxy_pass http://backend;
+        proxy_pass backend;
     }
 }
