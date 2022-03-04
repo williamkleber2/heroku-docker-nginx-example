@@ -1,5 +1,5 @@
 FROM nginx:1.21.6
-FROM python:3-slim
+FROM python:3.9.0
 
 ENV PYTHONUNBUFFERED=1
 
