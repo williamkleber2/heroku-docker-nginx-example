@@ -1,3 +1,10 @@
 build:
   docker:
     web: Dockerfile
+
+release:
+  command:
+    - chmod u+x release-tasks.sh  && ./release-tasks.sh 
+
+run:
+  web: newrelic-admin run-program gunicorn project.wsgi --log-file -
