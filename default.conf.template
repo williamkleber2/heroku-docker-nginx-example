@@ -1,20 +1,14 @@
-upstream frontend {
-    server $FRONTEND_URL;
-}
 
-upstream backend {
-    server $BACKEND_URL;
-}
 
 server {
   listen $PORT default_server;
 
   
   location /about {
-        proxy_pass frontend;
+        proxy_pass $FRONTEND_URL;
     }
 
   location / {
-        proxy_pass backend;
+        proxy_pass $BACKEND_URL;
     }
 }
