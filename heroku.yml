@@ -4,7 +4,8 @@ build:
 
 release:
   command:
-    - chmod u+x release-tasks.sh  && ./release-tasks.sh 
+    - chmod u+x release-tasks.sh  && ./release-tasks.sh
+  image: django
 
 run:
   web: newrelic-admin run-program gunicorn project.wsgi --log-file -
