@@ -4,5 +4,13 @@
   "repository": "https://github.com/williamkleber2/heroku-docker-nginx-example",
   "logo": "https://upload.wikimedia.org/wikipedia/commons/c/c5/Nginx_logo.svg",
   "keywords": ["nginx", "docker", "proxy"],
+  "env": {
+		"UPSTREAM_SERVER1": {
+			"description": "URL of upstream server to which all requests should be proxied"
+		},
+		"UPSTREAM_SERVER2": {
+			"description": "URL of upstream server to which all requests should be proxied"
+		}
+	},
   "stack": "container"
 }

@@ -1,12 +1,20 @@
+upstream frontend {
+    server $FRONTEND_URL;
+}
+
+upstream backend {
+    server $BACKEND_URL;
+}
+
 server {
   listen $PORT default_server;
 
   
   location /about {
-        proxy_pass https://droplinkfy.vercel.app/about;
+        proxy_pass http://frontend;
     }
 
   location / {
-        proxy_pass https://front-droplinkfy.herokuapp.com/;
+        proxy_pass http://backend;
     }
 }
