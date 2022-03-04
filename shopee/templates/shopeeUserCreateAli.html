@@ -1,0 +1,83 @@
+{% extends "index.html" %} {% load static %} {% block content %}
+<main>
+  <header
+    class="page-header page-header-dark bg-gradient-primary-to-secondary pb-10"
+  >
+    <div class="container">
+      <div class="page-header-content pt-4">
+        <div class="row align-items-center justify-content-between">
+          <div class="col-auto mt-4">
+            <h1 class="page-header-title">
+              <div class="page-header-icon"><i data-feather="user"></i></div>
+              Criar e Cadastrar Usuário do Fornecedor
+            </h1>
+            <div class="page-header-subtitle">
+              Criar e cadastrar um usuário para fazer a compra no fornecedor
+            </div>
+          </div>
+          <div class="col-12 col-xl-auto mt-4">
+            <a target="_blank" class="btn btn-warning" href="{{ notionUrl }}"
+              >Tutorial -> Como criar contas da forma correta !</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Main page content-->
+  <div class="container mt-n10">
+    <div class="card mb-4">
+      <div id="overlayPro">
+        <div class="w-100 d-flex justify-content-center align-items-center">
+          <div class="spinnerPro"></div>
+        </div>
+      </div>
+      <div class="card-header">Adicionar Usuário AliExpress</div>
+      <div class="card-body">
+        <form name="form" method="POST" id="userAliForm">
+          {% csrf_token %}
+          <input type="hidden" id="#ctype" name="ctype" value="{{ctype}}"/>
+          <!-- Form Group (new password)-->
+          <div class="form-group">
+            <label class="small mb-1" for="email">Usuário</label>
+            <input
+              class="form-control"
+              value="{{ userShopee.email }}"
+              name="email"
+              id="email"
+              type="text"
+              placeholder="Usuário"
+            />
+          </div>
+
+          <div class="form-group">
+            <label class="small mb-1" for="password">Senha</label>
+            <input
+              class="form-control"
+              value="{{ userShopee.password }}"
+              name="password"
+              id="password"
+              type="password"
+              placeholder="Senha"
+            />
+          </div>
+
+          <a class="btn btn-primary" id="btnValidateUserAli"
+            >Criar e Cadastrar usuário</a
+          >
+        </form>
+      </div>
+    </div>
+  </div>
+</main>
+<script>
+  var csrftoken = "{{ csrf_token }}";
+  var phoneErrorsMessage = {
+    PHONE_VALIDATION_ERROR_DDI_MSG: "{{ PHONE_VALIDATION_ERROR_DDI_MSG }}",
+    PHONE_VALIDATION_ERROR_DDD_MSG: "{{ PHONE_VALIDATION_ERROR_DDD_MSG }}",
+    PHONE_VALIDATION_ERROR_PHONE_MSG: "{{ PHONE_VALIDATION_ERROR_PHONE_MSG }}",
+  };
+  var FILL_ALL_FIELDS_VALIDATION_MSG = "{{ FILL_ALL_FIELDS_VALIDATION_MSG }}";
+</script>
+
+{% include 'shopeeUserCookie.html' %} {% endblock %}

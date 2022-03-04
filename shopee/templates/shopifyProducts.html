@@ -1,0 +1,68 @@
+{% extends "index.html" %}
+{% load static %}
+{% block content %}
+<main>
+    <header class="page-header page-header-dark bg-gradient-primary-to-secondary pb-10">
+        <div class="container">
+            <div class="page-header-content pt-4">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-auto mt-4">
+                        <h1 class="page-header-title">
+                            <div class="page-header-icon"><i data-feather="link"></i></div>
+                            Ligação dos produtos Shopify <> Fornecedor
+                        </h1>
+                        <div class="page-header-subtitle">Fazer a ligação entre os produtos da shopify e Fornecedor</div>
+                    </div>
+                    <div class="col-12 col-xl-auto mt-4">
+                        <a class="btn btn-success mr-2 my-1" type="button" id="syncProductsButton" type="button">Sincronizar Produtos</a>
+                    </div>
+                    <div class="col-12 col-xl-auto mt-4">
+                        <a target="_blank" class="btn btn-warning" href="{{ notionUrl }}">Tutorial -> Como mapear os produtos !</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Main page content-->
+    <div class="container mt-n10">
+        <div class="card mb-4">
+            <div class="card-header">Produtos Cadastrados</div>
+            <div class="card-body">
+                <div id="overlayPro">
+                  <div class="w-100 d-flex justify-content-center align-items-center">
+                    <div class="spinnerPro"></div>
+                  </div>
+                </div>
+                <div class="datatable">
+                    <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                      <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Identificador</th>
+                            <th>Variante</th>
+                            <th>SKU</th>
+                            <th>Price</th>
+                            <th>Produtos Fornecedor Mapeados</th>
+                            <th>Mapear Produto</th>
+                            <th>Processável?</th>
+                        </tr>
+                      </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% include "vendorChoiceModal.html" %}
+
+<script>
+    var csrftoken = '{{ csrf_token }}';
+    var available_syncs = '{{ available_syncs }}';
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" crossorigin="anonymous"></script>
+<script src="{% static 'functions/shopifyProductsJS.js' %}"></script>
+
+
+
+{% endblock %}

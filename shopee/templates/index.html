@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+{% load static %}
+{% load gtm_tags%}
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Droplinkfy</title>
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+        <script
+        src="https://browser.sentry-cdn.com/6.13.2/bundle.min.js"
+        integrity="sha384-fcgCrdIqrZ6d6fA8EfCAfdjgN9wXDp0EOkueSo3bKyI3WM4tQCE0pOA/kJoqHYoI"
+        crossorigin="anonymous"
+        ></script>
+        <script
+        src="https://browser.sentry-cdn.com/6.13.2/bundle.tracing.min.js"
+        integrity="sha384-g1k5bjMWKoe/N/kf+efRJQ/UkC6RMrOosoXAC23KPKv3BPSq/OU/IXfuc6X/GvSJ"
+        crossorigin="anonymous"
+        ></script>
+        <script>Sentry.init({dsn: "{{SENTRY_DSN}}", integrations: [new Sentry.Integrations.BrowserTracing()], tracesSampleRate: 0.2,});</script>
+        <link href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/3.3.1/introjs.css" rel="stylesheet" crossorigin="anonymous" />
+        <link href="https://cdn.jsdelivr.net/npm/intro.js@3.3.1/themes/introjs.css" rel="stylesheet" crossorigin="anonymous" />
+        <link href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" rel="stylesheet" crossorigin="anonymous" />
+        <link href="{% static 'css/switch.css' %}" rel="stylesheet" crossorigin="anonymous">
+        <link rel="icon" type="image/x-icon" href="{% static 'assets/img/favicon.png' %}" />
+        <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" crossorigin="anonymous"></script>
+        <link href="{% static 'css/toastr.css' %}" rel="stylesheet">
+        <script src="{% static 'js/toastr.min.js' %}"></script>
+        <script src="{% static 'js/br-phone-validator.js' %}"></script>
+        <script src="{% static 'js/notification.js' %}"></script>
+        <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="747299f0-9023-4d9f-b535-223925d2a51f";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
+        <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+        <script src="https://unpkg.com/imask"></script>
+        <script src="{% static 'functions/newsNotificationJS.js' %}" defer></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_ANALYTICS_ID }}"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);};gtag('js',new Date());gtag('config','{{ GOOGLE_ANALYTICS_ID }}');</script>
+        <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js"></script>
+    </head>
+    <body class="nav-fixed">
+        <nav class="topnav navbar navbar-expand shadow justify-content-between justify-content-sm-start navbar-light bg-white" id="sidenavAccordion">
+            <a class="navbar-brand" href="/">Droplinkfy</a>
+            <!-- Sidenav Toggle Button-->
+            <button class="btn btn-icon btn-transparent-dark order-1 order-lg-0 mr-lg-2" id="sidebarToggle"><i data-feather="menu"></i></button>
+            <!-- Navbar Search Input-->
+
+            <!-- Navbar Items-->
+            <ul class="navbar-nav align-items-center ml-auto">
+                <!-- News Dropdown -->
+                <li class="nav-item dropdown no-caret d-none d-sm-block mr-3 dropdown-notifications">
+                    <a class="btn btn-icon btn-transparent-dark dropdown-toggle" id="navbarDropdownAlerts" href="javascript:void(0);" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i data-feather="bell"></i>
+
+                        {% if news %}
+                        <span id="notification-red-dot" class="position-absolute translate-middle border border-light rounded-circle bg-danger p-1" style="top: 10px; right: 10px;"></span>
+                        {% endif %}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownAlerts">
+                        <h6 class="dropdown-header dropdown-notifications-header">
+                            <i class="me-2 mr-2" data-feather="bell"></i>
+                            Noticias
+                        </h6>
+
+                        <div class="dropdown-divider m-0"></div>
+
+                        {% for new in news %}
+                        <a class="_notification dropdown-item dropdown-notifications-item"
+                            {% if new.url %}
+                                href="{{ new.url }}"
+                            {% else %}
+                                href='#'
+                            {% endif %}
+                            data-id="{{ new.id }}" data-viewed="0">
+                            <div class="icon-stack text-{{ new.color }} mr-3 bg-{{ new.color }}-soft">
+                                <i data-feather="{{ new.icon }}"></i>
+                            </div>
+
+                            <div class="dropdown-notifications-item-content">
+                                <div class="dropdown-notifications-item-content-details">{{ new.created_at }}</div>
+                                <div class="dropdown-notifications-item-content-text">{{ new.brief }}</div>
+                            </div>
+                        </a>
+                        {% endfor %}
+
+                        {% for nt in nots %}
+                        <a class="dropdown-item dropdown-notifications-item"
+                            {% if nt.news.url %}
+                                href="{{ nt.news.url }}"
+                            {% else %}
+                                href='#'
+                            {% endif %}
+                            style="opacity: 0.5;">
+                            <div class="icon-stack text-{{ nt.news.color }} mr-3 bg-{{ nt.news.color }}-soft">
+                                <i data-feather="{{ nt.news.icon }}"></i>
+                            </div>
+
+                            <div class="dropdown-notifications-item-content">
+                                <div class="dropdown-notifications-item-content-details">{{ nt.news.created_at }}</div>
+                                <div class="dropdown-notifications-item-content-text">{{ nt.news.brief }}</div>
+                            </div>
+                        </a>
+                        {% endfor %}
+
+                        {% if all_news_notion_link %}
+                        <a class="dropdown-item dropdown-notifications-footer" href="{{ all_news_notion_link }}">Ver todas as noticias!</a>
+                        {% endif %}
+                    </div>
+                </li>
+
+                <!-- Documentation Dropdown-->
+                <li class="nav-item dropdown no-caret d-none d-sm-block mr-3">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownDocs" href="javascript:void(0);" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div class="font-weight-500">Ajuda</div>
+                        <i class="fas fa-chevron-right dropdown-arrow"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right py-0 mr-sm-n15 mr-lg-0 o-hidden animated--fade-in-up" aria-labelledby="navbarDropdownDocs">
+                        <a class="dropdown-item py-3" href="/manual" target="_blank">
+                            <div class="icon-stack bg-primary-soft text-primary mr-4"><i data-feather="book"></i></div>
+                            <div>
+                                <div class="small text-gray-500">Como usar?</div>
+                                Instruções de uso
+                            </div>
+                        </a>
+                        <div class="dropdown-divider m-0"></div>
+                        <a class="dropdown-item py-3" href="/manual/suporte" target="_blank">
+                            <div class="icon-stack bg-primary-soft text-primary mr-4"><i data-feather="help-circle"></i></div>
+                            <div>
+                                <div class="small text-gray-500">Preciso de ajuda</div>
+                                 Clique aqui que vamos te ajudar
+                            </div>
+                        </a>
+                    </div>
+                </li>
+                <!-- Navbar Search Dropdown-->
+                <!-- User Dropdown-->
+                <li class="nav-item dropdown no-caret mr-3 mr-lg-0 dropdown-user">
+                    <a class="btn btn-icon btn-transparent-dark dropdown-toggle" id="navbarDropdownUserImage" href="javascript:void(0);" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="img-fluid" src="{% static 'assets/img/illustrations/profiles/profile-1.png' %}" /></a>
+                    <div class="dropdown-menu dropdown-menu-right border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownUserImage">
+                        <h6 class="dropdown-header d-flex align-items-center">
+                            <img class="dropdown-user-img" src="{% static 'assets/img/illustrations/profiles/profile-1.png' %}" />
+                            <div class="dropdown-user-details">
+                                <div class="dropdown-user-details-name">{{ user.first_name }} {{ user.last_name }}</div>
+                                <div class="dropdown-user-details-email">{{ user.email }}</div>
+                            </div>
+                        </h6>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/charges">
+                            <div class="dropdown-item-icon"><i data-feather="dollar-sign"></i></div>
+                            Cobranças
+                        </a>
+                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                            <div class="dropdown-item-icon"><i data-feather="log-out"></i></div>
+                            Sair
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sidenav shadow-right sidenav-light">
+                    <div class="sidenav-menu">
+                        <div class="nav accordion" id="accordionSidenav">
+                            <!-- Sidenav Heading (App Views)-->
+                            <div class="sidenav-menu-heading">Informações</div>
+                            <!-- Sidenav Accordion (Pages)-->
+                            <a class="nav-link {% if nbar == 'orders' %} active {% endif %} "
+                               href="/orders">
+                                <div class="nav-link-icon"><i data-feather="shopping-cart"></i></div>
+                                Pedidos
+                            </a>
+                            <!-- Sidenav Link (Tables)-->
+                            <a class="nav-link {% if nbar == 'shopeeUsers' %} active {% endif %}" href="/vendorUsers">
+                                <div class="nav-link-icon"><i data-feather="users"></i></div>
+                                Usuários do Fornecedor
+                            </a>
+                            <!-- Sidenav Link (Tables)-->
+                            <a class="nav-link {% if nbar == 'shopifyProducts' %} active {% endif %}" href="/shopifyProducts">
+                                <div class="nav-link-icon"><i data-feather="link"></i></div>
+                                Produtos
+                            </a>
+                            <!-- Sidenav Link (Tables)-->
+                            <a class="nav-link  {% if nbar == 'shopifyInfo' %} active {% endif %}" href="/shopifyInfo">
+                                <div class="nav-link-icon"><i data-feather="shopping-bag"></i></div>
+                                Informações do shopify
+                            </a>
+
+                            <a class="nav-link {% if nbar == 'graphs' %} active {% endif %} "
+                               href="/graphs">
+                                <div class="nav-link-icon">
+                                    <i data-feather="bar-chart-2"></i>
+                                </div>
+                                Gráficos
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Sidenav Footer-->
+                    <div class="sidenav-footer">
+                        <div class="sidenav-footer-content">
+                            <div class="sidenav-footer-subtitle">Logado como:</div>
+                            <div class="sidenav-footer-title">{{ user.first_name }} {{ user.last_name }}</div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">                
+                {% if subscription_status == 'canceled' %}
+                <div class="alert alert-danger fade show" role="alert" style="margin-bottom: 0px;">
+                    <strong>Assinatura inválida!</strong> O último pagamento da sua assinatura \não foi bem sucedido. Por favor valide a sua assinatura.
+                    <!--button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button:-->
+                </div>
+                {% endif %}
+                {% if subscription_status == 'past_due' %}
+                <div class="alert alert-warning fade show" role="alert" style="margin-bottom: 0px;">
+                    <strong>Assinatura inválida!</strong> O último pagamento da sua assinatura não foi bem sucedido. Por favor valide a sua assinatura [<a href="/manual/assinatura/" target="_blank">tutorial aqui</a>] senão a sua conta vai ser bloqueada em até 3 dias.
+                    <!--button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button:-->
+                </div>
+                {% endif %}
+                {% if percentagePay_status == 'past_due' %}
+                <div class="alert alert-warning fade show" role="alert" style="margin-bottom: 0px;">
+                    <strong>Cobrança não deu sucesso!</strong> O último pagamento da porcentagem não foi bem sucedido. Se a cobrança não for bem sucedida, dentro de {{ daysUntilAccountBlock }} dias sua conta será bloqueada. 
+                    <!--button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button:-->
+                </div>
+                {% endif %}
+                {% if not working_admin %}
+                <div class="alert alert-danger fade show" role="alert" style="margin-bottom: 0px;">
+                    <strong>Seus pedidos e código de rastreio não estão sendo mais atualizados, pois seu usuário foi desativado após algumas tentativas de pagamento automático sem sucesso.</strong>
+                    <div>Fale com o nosso suporte caso queira voltar.</div>
+                    <!--button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button:-->
+                </div>
+                {% endif %}
+
+                {% for alert in alerts %}
+                <div class="alert alert-{{ alert.color }} fade show" role="alert" style="margin-bottom: 0px;">
+                    <strong>{{ alert.title }}</strong>
+                    {{ alert.description |safe }}
+                </div>
+                {% endfor %}
+
+                {% block content %}{% endblock %}
+
+                {% include "footer.html" %}
+            </div>
+        </div>
+
+      <!-- Messages toast-->
+       {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'success'%}
+                    <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
+                {% elif message.tags == 'info' %}
+                    <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
+                {% elif message.tags == 'warning' %}
+                    <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
+                {% elif message.tags == 'error' %}
+                    <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Pronto para fazer Logout?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="modal-body">Selecione "Sair" se você deseja finalizar sua sessão atual.</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                        <a class="btn btn-primary" href="/logout">Sair</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- REPORT BANNERS -->
+        <div class="bottom-banner waiting-bottom-banner" hidden>
+            <div style="display: flex; align-items: center; justify-content: center;">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                Aguarde, seu relatório está sendo gerado...
+            </div>
+        </div>
+        <div class="bottom-banner download-bottom-banner" hidden>
+            <div style="display: flex; align-items: center; justify-content: center; margin: 0px 20px;">
+                Seu relatório está pronto.
+                <a class="btn btn-light btn-sm ml-3" href="#" target="_blank">Baixar CSV</a>
+            </div>
+        </div>
+        <script>$(".download-bottom-banner a").click(function(e) {
+            $(".download-bottom-banner").attr("hidden", true);
+        })
+
+        var REPORT_CHECK_STATUS_INTERVAL = {{REPORT_CHECK_STATUS_INTERVAL}};
+        var REPORT_TIMEOUT_MS = {{REPORT_TIMEOUT_MS}};
+        
+        function reportMonitor() {
+            function handleError() {
+                sessionStorage.removeItem("lastReportId")
+                toastr.error("Ocorreu um erro ao gerar o relatório. Tente novamente.");
+                $("#overlayPro").hide();
+                $(".waiting-bottom-banner").attr("hidden", true)
+            }
+            $.ajax({
+                type: "GET",
+                url: "/orders_report/",
+                headers: { "X-CSRFToken": csrftoken },
+                data: {
+                    report: sessionStorage.getItem("lastReportId")
+                },
+                traditional: true,
+                success: function (e) {
+                    switch(e.status) {
+                        case "pending":
+                            var countReportTimeout = sessionStorage.getItem("countReportTimeout");
+                            countReportTimeout = countReportTimeout ? parseFloat(countReportTimeout) : 0;
+                            if(countReportTimeout > REPORT_TIMEOUT_MS){
+                                $(".waiting-bottom-banner").attr("hidden", true);
+                                toastr.warning("Seu relatório ainda está sendo processado e será enviado por e-mail em até 15 minutos.");
+                                break;
+                            }
+                            countReportTimeout += REPORT_CHECK_STATUS_INTERVAL;
+                            sessionStorage.setItem("countReportTimeout", countReportTimeout)
+                            setTimeout(reportMonitor, REPORT_CHECK_STATUS_INTERVAL);
+                            break;
+                        case "finished":
+                            sessionStorage.removeItem("lastReportId")
+                            toastr.success("O relatório já pode ser baixado.");
+                            $(".waiting-bottom-banner").attr("hidden", true);
+                            $(".download-bottom-banner a").attr("href", e.url);
+                            $(".download-bottom-banner").attr("hidden", false);
+                            break;
+                        default:
+                            handleError();
+                    }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    handleError();
+                },
+                complete: function() {}
+            });
+        }
+
+        $( document ).ready(function() {
+            if(sessionStorage.getItem("lastReportId")) {
+                reportMonitor();
+                $(".waiting-bottom-banner").attr("hidden", false);
+            }
+        });
+        </script>
+    
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="{% static 'js/scripts.js' %}"></script>
+        <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/momentjs/latest/moment-with-locales.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js" crossorigin="anonymous"></script>
+        <script src="{% static 'assets/demo/date-range-picker-demo.js' %}"></script>
+        <script src="{% static 'functions/crispJS.js' %}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/3.3.1/intro.min.js" crossorigin="anonymous"></script>
+        <script>
+            
+        </script>
+    </body>
+</html>

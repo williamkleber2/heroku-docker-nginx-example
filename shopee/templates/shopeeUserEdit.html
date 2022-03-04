@@ -1,0 +1,113 @@
+{% extends "index.html" %}
+{% load static %}
+{% block content %}
+<main>
+    <header class="page-header page-header-dark bg-gradient-primary-to-secondary pb-10">
+        <div class="container">
+            <div class="page-header-content pt-4">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-auto mt-4">
+                        <h1 class="page-header-title">
+                            <div class="page-header-icon"><i data-feather="shopping-bag"></i></div>
+                            Usuários do Fornecedor
+                        </h1>
+                        <div class="page-header-subtitle">Usuários para fazer a compra no fornecedor</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Main page content-->
+    <div class="container mt-n10">
+        <div class="card mb-4">
+            <div id="overlayPro">
+              <div class="w-100 d-flex justify-content-center align-items-center">
+                <div class="spinnerPro"></div>
+              </div>
+            </div>
+            <div class="card-header">Usuários</div>
+            <div class="card-body">
+            {% if userShopee.created_status == 'TNV' %}
+                <div class="alert alert-warning" role="alert">
+                Adicione um telefone para ativar esse usuário.
+                </div>
+            {% endif %}
+                <form name="form" method="POST">
+                    {% csrf_token %}
+                    <!-- Form Group (email)-->
+                    <div class="form-group">
+                        <label class="small mb-1" for="email">Email</label>
+                        <input class="form-control" value="{{ userShopee.email }}" name="email" id="email" type="text" placeholder="Email" />
+                        {% if userShopee.created_status == 'EAR' %}
+                            <div class="mt-3 alert alert-warning" role="alert">
+                            O email <b>{{ userShopee.email }}</b> já está sendo utilizado por uma conta Shopee. Por favor, escolha outro e-mail.
+                            </div>
+                        {% endif %}
+                    </div>
+                    <!-- Form Group (confirm password)-->
+                    <div class="form-group">
+                        <label class="small mb-1" for="password">Senha</label>
+                        <input class="form-control" value="{{ userShopee.password }}" name="password" id="password" type="password" placeholder="Senha" />
+                    </div>
+                    {% if userShopee.created_status == 'EAR' %}
+                            <div class="mt-3 alert alert-warning" role="alert">
+                            O email <b>{{ userShopee.email }}</b> já está sendo utilizado por uma conta Shopee. Por favor, escolha outro e-mail.
+                            </div>
+                    {% endif %}
+                    <!-- Form Group (new password)-->
+                  
+                    {% if userShopee.vendor != "ali" %}
+                    <!-- Form Group (phone)-->
+                    <div class="form-group">
+                        <label class="small mb-1" for="phone">Telefone</label>
+                         {% if userShopee.phone and userShopee.created_status != 'TNV' %}
+                        <input class="form-control" value="{{ userShopee.phone }}" name="phone" id="phone" type="text" placeholder="Telefone" />
+                        {% else %}
+                        <button data-email="{{ userShopee.email }}" data-ctype="{{ userShopee.account_type }}" class="btn btn-primary btn-confirm-phone" style="display: block;">Adicionar Telefone</button>
+                        {% endif %}
+                    </div>
+                    <!-- Form Group (confirm password)-->
+                    <div class="form-group">
+                        <label class="small mb-1" for="proxy">Proxy</label>
+                        <input class="form-control" value="{{ userShopee.proxy }}" name="proxy" id="proxy" type="text" placeholder="Ip do Proxy" />
+                    </div>
+                    <!-- Form Group (confirm password)-->
+                    <div class="form-group">
+                        <label class="small mb-1" for="port">Porta</label>
+                        <input class="form-control" value="{{ userShopee.port }}" name="port" id="port" type="number" placeholder="Porta do Proxy" />
+                    </div>
+                    <!-- Form Group (confirm password)-->
+                    <div class="form-group">
+                        <label class="small mb-1" for="proxy_login">Proxy login</label>
+                        <input class="form-control" value="{{ userShopee.proxy_login }}" name="proxy_login" id="proxy_login" type="text" placeholder="Login do proxy" />
+                    </div>
+                    <!-- Form Group (confirm password)-->
+                    <div class="form-group">
+                        <label class="small mb-1" for="proxy_password">Proxy password</label>
+                        <input class="form-control" value="{{ userShopee.proxy_password }}" name="proxy_password" id="proxy_password" type="password" placeholder="Senha da proxy" />
+                    </div>
+                    {% if userShopee.phone and userShopee.created_status != 'TNV' %}
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" value=0 name="activated" id="activated" type="checkbox"
+                            {% if userShopee.activated %} checked="" {% endif %}>
+                            <label class="custom-control-label" for="activated">Funcionando</label>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endif %}
+                    <input class="btn btn-primary" id="saveUser" type="submit" href="vendorUsers" value="Salvar"></input>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    var csrftoken = '{{ csrf_token }}';
+    var userShopee_pk = '{{ userShopee_pk }}';
+    var userShopee = '{{ userShopee }}';
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" crossorigin="anonymous"></script>
+<script src="{% static 'functions/shopeeUserJS.js' %}"></script>
+{% include 'shopeeUserCookie.html' %}
+{% endblock %}

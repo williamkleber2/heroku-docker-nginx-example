@@ -1,0 +1,122 @@
+{% extends "index.html" %}
+{% load static %}
+{% block content %}
+<main>
+    <header class="page-header page-header-dark bg-gradient-primary-to-secondary pb-10">
+        <div class="container">
+            <div class="page-header-content pt-4">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-auto mt-4">
+                        <h1 class="page-header-title">
+                            <div class="page-header-icon"><i data-feather="shopping-bag"></i></div>
+                            Informações Shopify
+                        </h1>
+                        <div class="page-header-subtitle">Dados sobre o shopify para o funcionamento do Droplinkfy</div>
+                    </div>
+                    <div class="col-12 col-xl-auto mt-4">
+                        <a target="_blank" class="btn btn-warning" href="{{ notionUrl }}">Tutorial -> Vinculando minha loja shopify !</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Main page content-->
+    <div class="container mt-n10">
+        <div class="card mb-4">
+            <div id="overlayPro">
+              <div class="w-100 d-flex justify-content-center align-items-center">
+                <div class="spinnerPro"></div>
+              </div>
+            </div>
+            <div class="card-header">Informações da shopify</div>
+            <div class="card-body">
+                <form name="form" method="POST">
+                    {% csrf_token %}
+                    <!-- Form Group (current password)-->
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Checkout</label>
+                        <select class="form-control" id="exampleFormControlSelect1" data-intro="Hello World!" name="checkout">
+                            <option></option>
+                            <option {% if shopifyInfo.checkout == "YAMPI" %}selected="selected"{% endif %}>YAMPI</option>
+                            <option {% if shopifyInfo.checkout == "CARTX" %}selected="selected"{% endif %}>CARTX</option>
+                            <option {% if shopifyInfo.checkout == "CLOUDFOX" %}selected="selected"{% endif %}>CLOUDFOX</option>
+                            <option {% if shopifyInfo.checkout == "HUBSALES" %}selected="selected"{% endif %}>HUBSALES</option>
+                            <option {% if shopifyInfo.checkout == "CONVERTE.ME" %}selected="selected"{% endif %}>CONVERTE.ME</option>
+                        </select>
+                    </div>
+                    <!-- Form Group (new password)-->
+                    <div class="form-group">
+                        <label class="small mb-1" for="newPassword">Nome da loja shopify (minhaloja.myshopify.com)</label>
+                        <input {% if shopifyInfo.shopify_name is not none %} readonly {% endif %}  class="form-control" value="{{ shopifyInfo.shopify_name }}" name="shopify_name" id="shopifyName" type="text" placeholder="minhaloja.myshopify.com.br" />
+                    </div>
+                    <!-- Form Group (confirm password)-->
+                    <div class="form-group">
+                        <label class="small mb-1" for="confirmPassword">Senha do aplicativo privado</label>
+                        <input class="form-control" value="{{ shopifyInfo.shopify_key }}" name="shopify_key" id="confirmPassword" type="password" placeholder="Senha do aplicativo privado" />
+                    </div>
+                    <div class="form-group">
+                        <label class="small mb-1" for="confirmPassword">Segredo compartilhado</label>
+                        <input class="form-control" value="{{ shopifyInfo.shopify_shared_secret }}" name="shopify_shared_secret" id="shared_secret" type="text" placeholder="Segredo compartilhado" />
+                    </div>
+                    <div class="form-group">
+                        <label class="small mb-1" for="confirmPassword">Url para códigos de rastreio</label>
+                        <input class="form-control" {% if shopifyInfo.tracking_url %} value="{{ shopifyInfo.tracking_url }}" {% else %} value="https://rastreio.ninja/buscar/" {% endif %}
+                               name="tracking_url" id="tracking_url" type="text" required/>
+                    </div>
+                    <div class="form-group">
+                        <label class="small mb-1" for="order_memo">Nota de Pedido para fornecedores AliExpress</label>
+                        <textarea maxlength="512" class="form-control" name="order_memo" id="order_memo" type="text" required/>{{ userInfo.order_memo }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" name="free_shipping" id="checkFreeShipping" type="checkbox"
+                             {% if shopifyInfo.free_shipping %} checked="" {% endif %}>
+                            <label class="custom-control-label" for="checkFreeShipping">Somente pedidos com frete grátis (não disponíveis para algumas cidades). Limite de 1 pedido com frete grátis por conta por dia (para minimizar o número de blocks)</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" value=0 name="working" id="checkAccountChanges" type="checkbox"
+                            {% if not shopifyInfo or shopifyInfo.working %} checked="" {% endif %}>
+                            <label class="custom-control-label" for="checkAccountChanges">
+                                Funcionando
+
+                                <a href="" onclick="return false;" data-toggle="tooltip" title="Mantenha essa opção ATIVA. Caso essa função esteja INATIVA, o droplinkfy irá parar de funcionar em sua loja!">
+                                    <i class="fas fa-question-circle fa-sm"></i>
+                                </a>
+                            </label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" name="automatic_upsell" id="checkAutomaticUpsell" type="checkbox"
+                            {% if not shopifyInfo or shopifyInfo.automatic_upsell %} checked="" {% endif %}>
+
+                            <label class="custom-control-label" for="checkAutomaticUpsell">
+                                Upsell automático
+
+                                <a href="" onclick="return false;" data-toggle="tooltip" title="Os pedidos serão automaticamente linkados ao terem endereço idênticos caso essa opção esteja marcada - ou seja, será cobrado somente um frete na hora da compra do fornecedor. Caso desmarcada, os pedidos NAO serão linkados automaticamente - serão cobrados dois fretes no fornecedor em pedidos de upsell.">
+                                    <i class="fas fa-question-circle fa-sm"></i>
+                                </a>
+                            </label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" name="notify_order_fulfillment" id="checkNotify" type="checkbox"
+                            {% if not shopifyInfo or shopifyInfo.notify_order_fulfillment %} checked="" {% endif %}>
+                            <label class="custom-control-label" for="checkNotify">
+                                Enviar email para o cliente pelo shopify quando o pedido for processado
+
+                                <a href="" onclick="return false;" data-toggle="tooltip" title="Caso essa opção esteja marcada, todos os pedidos que forem processados pela nossa plataforma fará com que o shopify envie um email automaticamente informando o cliente sobre o envio do pedido com o codigo de rastreio.">
+                                    <i class="fas fa-question-circle fa-sm"></i>
+                                </a>
+                            </label>
+                        </div>
+                    </div>
+                    <input class="btn btn-primary" id="updateShopifyInfo" type="submit" href="shopifyInfo.html" value="Atualizar"></input>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    var csrftoken = '{{ csrf_token }}';
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" crossorigin="anonymous"></script>
+<script src="{% static 'functions/shopifyInfoJS.js' %}"></script>
+{% endblock %}

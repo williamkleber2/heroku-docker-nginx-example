@@ -1,0 +1,157 @@
+{% extends "index.html" %}
+{% load static %}
+{% block content %}
+<main>
+    <header class="page-header page-header-dark bg-gradient-primary-to-secondary pb-10">
+        <div class="container">
+            <div class="page-header-content pt-4">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-auto mt-4">
+                        <h1 class="page-header-title">
+                            <div class="page-header-icon"><i data-feather="activity"></i></div>
+                            Usuários do Fornecedor
+                        </h1>
+                        <div class="page-header-subtitle">Usuários para fazer compra no fornecedor</div>
+                    </div>
+                    <div class="col-12 col-xl-auto mt-4">
+                        <a class="btn btn-success mr-2 my-1" href="#" type="button" onClick="$('#accountSelector').modal();">Adicionar novo Usuário de Fornecedor</a>
+                    </div>
+                    <div class="col-12 col-xl-auto mt-4">
+                        <a target="_blank" class="btn btn-warning" href="{{ notionUrl }}">Tutorial -> Como criar os usuários !</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Main page content-->
+    <div class="container mt-n10">
+        <div class="card mb-4">
+            <div class="card-header">Usuários</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="card border-primary mb-3">
+                        <div class="card-body p-3 d-flex justify-content-center mb-n3">
+                            <p style="font-size: 13px">
+                                Usuário AliExpress
+                            </p>
+
+                            <div class="custom-control custom-switch ml-3" style="margin-top: -6px;">
+                                <input class="custom-control-input" id="aliToggle" type="checkbox" />
+                                <label class="custom-control-label" for="aliToggle"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col"></div>
+                 </div>
+                <div class="datatable">
+                    <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                      <thead>
+                        <tr>
+                            <th>Fornecedor</th>
+                            <th>Ativada</th>
+                            <th>Email</th>
+                            <th>Telefone</th>
+                            <th>Senha</th>
+                            <th>Proxy</th>
+                            <th>Porta</th>
+                            <th>Proxy Login</th>
+                            <th>Proxy Senha</th>
+                            <th>Motivo de desativação</th>
+                            <th>Última compra/validação do frete grátis</th>
+                            <th>Erros</th>
+                            <th>Editar</th>
+                            <th>Logar</th>
+                        </tr>
+                      </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!--Modal Errors-->
+<div class="modal fade" id="modalUserShopeeErrors" tabindex="-1" role="dialog" aria-labelledby="modalUserShopeeErrorsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+
+            <div class="modal-body" id="modalMappingList">
+                <div class="card-header row align-items-center justify-content-between" style="padding-top: 0px;">
+                    <div class="col-auto mt-4">
+                        <h1 class="page-header-title" id="h1UserEmail">
+                            Usuário:
+                        </h1>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="datatable">
+                        <table class="table table-bordered table-hover" id="dataTableErrors" width="100%" cellspacing="0">
+                          <thead>
+                            <tr>
+                                <th>Usuário</th>
+                                <th>Data</th>
+                                <th>Mensagem de erro</th>
+                            </tr>
+                          </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="userReactivate" tabindex="-1" role="dialog" aria-labelledby="userReactivate"
+  aria-hidden="true">
+  <div class="modal-dialog modal-l" style="min-width: 60%;" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="page-header-title" id="h1ProductName2">
+            Reativar Usuário Google Shopee
+          </h1>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body" id="modalMappingList">
+          <div>Clique no botão abaixo para acessar a tela de Login da Shopee e <b>efetue o login utilizando a devida conta Google.</b> Quando o login for identificado a janela da Shopee será fechada, voltando para aba do Droplinkfy, apenas aguarde a atualização na página.</div>
+        <a target="_blank" href="https://shopee.com.br/buyer/login" class="btn btn-primary btn-block mt-3">Logar na Shopee</a>
+        <form id="userReactivateForm" method="POST" action="{% url 'reactivateGoogleAccount' %}">
+            {% csrf_token %}
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    var shopeeUsersData = [
+    {% for user in shopeeUsers %}
+    [
+        '{{ user.vendor }}',
+        '{% if user.activated %}<div class="badge-info badge-pill" style="text-align: center;">Sim</div>{% else %}{% if user.created_status == "BC" %}<div class="badge-secondary badge-pill" style="text-align: center;">Pendente</div>{% else %}<div class="badge-warning badge-pill" style="text-align: center;">Não</div>{% endif %}{% endif %}',
+        '<a style="white-space: nowrap" id="email">{{ user.email }}</a>',
+        '{% if user.phone and user.created_status != 'TNV' %}{{ user.phone }}{% else %}<a href="#" data-email="{{ user.email }}" data-ctype="{{ user.account_type }}" class="btn-confirm-phone"><div class="badge-primary badge-pill" style="text-align: center;cursor: pointer;">Registrar</div></a>{% endif %}',
+        '********',
+        '{{ user.proxy }}',
+        '{{ user.port }}',
+        '{{ user.proxy_login }}',
+        '*********',
+        '{{ user.get_deactivate_status_display }}',
+        '{{ user.last_free_shipping_purchase }}',
+        '<a class="btn btn-primary btn-xs" data-id="{{ user.id }}" id="viewUserShopeeUsers" type="button" data-toggle="modal" data-target="#modalUserShopeeErrors"><i class="fas fa-grip-lines"></i></a>',
+        '<a href="/vendorUserEdit/{{user.id}}" class="btn btn-datatable btn-icon btn-primary mr-2 {% if user.deactivate_status == 'BA' %}disabled{% endif %}"><i data-feather="edit"></i></a>',
+        '<a class="field_install_extension" href="https://loud-fright-350.notion.site/Instala-o-da-Extens-o-de-Login-9403653f8f234d76960c1dcb549b604b" target="_blank" rel="noopener noreferrer" style="color: red;" data-valid="{{ user.can_be_logged }}" data-type="{{ user.account_type }}" data-expired="{{ user.is_spc_ec_expired }}" data-email="{{ user.email }}" data-cookie="{{ user.spc_f }}" data-password="{{ user.encrypted_password }}" data-port="{{ user.port }}" data-proxy="{{ user.proxy }}" data-proxylogin="{{ user.proxy_login }}" data-proxypassword="{{ user.proxy_password }}">[Instalar extensão]</a>'
+    ],
+    {% endfor %}
+    ]
+    var csrftoken = '{{ csrf_token }}';
+    var userShopee_pk = '{{ userShopee_pk }}';
+    var counterSeconds = "{{ counter_seconds }}";
+    
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" crossorigin="anonymous"></script>
+<script src="{% static 'functions/shopeeUserJS.js' %}"></script>
+{% include 'shopeeUserCookie.html' %}
+{% include 'shopeeUserCreateSelect.html' %} {% endblock %}

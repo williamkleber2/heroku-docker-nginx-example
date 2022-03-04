@@ -1,0 +1,141 @@
+{% load static %}
+
+<!-- Modal -->
+<div class="modal fade" id="vendorChoiceModal" tabindex="-1" role="dialog" aria-labelledby="vendorChoiceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <h5 class="modal-title">Mapear produto</h5>
+
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+            <div class="modal-body" id="modalTableMapping">
+                <div class="card-header row align-items-center justify-content-between" style="padding-top: 0px;">
+                    <div class="col-auto mt-4">
+                        <h1 class="page-header-title"></h1>
+                        <div class="page-header-subtitle"></div>
+                    </div>
+
+                    <div class="col-12 col-xl-auto mt-4">
+                        <a class="btn btn-success mr-2 my-1" id="createMappingButton" type="button">
+                            Mapear Produto Fornecedor
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="loadingOverlay" id="mappingTableOverlay">
+                        <div class="w-100 h-100 d-flex justify-content-center align-items-center">
+                            <div class="spinnerPro"></div>
+                        </div>
+                    </div>
+
+                    <div class="datatable">
+                        <table class="table table-bordered table-hover" id="mappingDataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Fornecedor</th>
+                                    <th>Fornecedor Url</th>
+                                    <th>Quantidade</th>
+                                    <th>Opções</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body" id="modalFormMapping" style="display: none;">
+                <div class="card-header row align-items-center justify-content-between" style="padding-top: 0px;">
+                    <div class="col-auto mt-4">
+                        <h1 class="page-header-title"></h1>
+                        <div class="page-header-subtitle"></div>
+                    </div>
+
+                    <div>
+                        <a class="btn btn-success mr-2 my-1" id="backToTableButton" type="button">
+                            Voltar à tabela
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="card mb-4">
+                        <div class="loadingOverlay" id="mappingFormOverlay">
+                            <div class="w-100 h-100 d-flex justify-content-center align-items-center">
+                                <div class="spinnerPro"></div>
+                            </div>
+                        </div>
+
+                        <div class="card-header">Produto Fornecedor</div>
+
+                        <div class="card-body">
+                            <form name="form" id="productMappingForm" method="POST">
+                                {% csrf_token %}
+
+                                <div class="form-group">
+                                    <label class="small mb-1" for="vendor">Fornecedor</label>
+
+                                    <select name="vendor" id="vendor" class="form-control form-control">
+                                        <option value="shopee">Shopee</option>
+                                        <option value="ali">AliExpress</option>
+                                    </select>
+
+                                    <div id="vendor-errors"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="small mb-1" for="url">Url do Produto no Fornecedor</label>
+                                    <input class="form-control" name="url" id="url" type="text" placeholder="URL para um produto do fornecedor" />
+                                    <div id="url-errors"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="small mb-1" for="amount">Quantidade</label>
+                                    <input class="form-control" name="amount" id="amount" type="number" min="0" placeholder="Quantidade" />
+                                    <div id="amount-errors"></div>
+                                </div>
+
+                                <hr>
+
+                                <h4>Variações</h4>
+                                <div class="form-group">
+                                    <div id="variationOptions">
+                                        <div class="alert alert-success" role=alert>
+                                            Insira um produto para selecionar suas variantes!
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="carriers" style="display: none;">
+                                <h4>Transportadores</h4>
+                                <div class="form-group">
+                                    <div id="carriersOptions">
+                                        <div class="alert alert-success" role=alert>
+                                            Insira um produto para selecionar suas transportadoras!
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+
+                                <hr>
+
+                                <input class="btn btn-primary" id="searchOptionsBtn" type="submit" value="Procurar opções"></input>
+                                <input class="btn btn-primary" id="saveMappingModalBtn" type="submit" value="Salvar"></input>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'functions/productMapping.js' %}"></script>
+{# The script has the function `prepareMappingSystem`, use it to       #}
+{# prepare the system and create an element with `data-toggle="modal"` #}
+{# and `data-target="#vendorChoiceModal"`                              #}

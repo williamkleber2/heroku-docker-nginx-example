@@ -1,0 +1,75 @@
+{% extends "index.html" %}
+{% load static %}
+{% block content %}
+<main>
+    <header class="page-header page-header-dark bg-gradient-primary-to-secondary pb-10">
+        <div class="container">
+            <div class="page-header-content pt-4">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-auto mt-4">
+                        <h1 class="page-header-title">
+                            <div class="page-header-icon"><i data-feather="user"></i></div>
+                            Criar Usuário no Fornecedor
+                        </h1>
+                        <div class="page-header-subtitle">Inserir usuário para criar no fornecedor</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Main page content-->
+    <div class="container mt-n10">
+        <div class="card mb-4">
+            <div id="overlayPro">
+              <div class="w-100 d-flex justify-content-center align-items-center">
+                <div class="spinnerPro"></div>
+              </div>
+            </div>
+            <div class="card-header">Usuário</div>
+            <div class="card-body">
+                <form name="form" method="POST" id="userShopeeForm">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label class="small mb-1" for="email">Email</label>
+                        <input class="form-control" value="{{ userShopee.email }}" name="email" id="email" type="text" placeholder="Email" />
+                    </div>
+                    <div class="form-group">
+                        <label class="small mb-1" for="password">Senha</label>
+                        <input class="form-control" value="{{ userShopee.password }}" name="password" id="password" type="password" placeholder="Senha" />
+                    </div>
+                    <div class="form-group">
+                        <label class="small mb-1" for="proxy">Proxy</label>
+                        <input class="form-control" value="{{ userShopee.proxy }}" name="proxy" id="proxy" type="text" placeholder="Ip do Proxy" />
+                    </div>
+                    <div class="form-group">
+                        <label class="small mb-1" for="port">Porta</label>
+                        <input class="form-control" value="{{ userShopee.port }}" name="port" id="port" type="number" placeholder="Porta do Proxy" />
+                    </div>
+                    <div class="form-group">
+                        <label class="small mb-1" for="proxy_login">Proxy login</label>
+                        <input class="form-control" value="{{ userShopee.proxy_login }}" name="proxy_login" id="proxy_login" type="text" placeholder="Login do proxy" />
+                    </div>
+                    <div class="form-group">
+                        <label class="small mb-1" for="proxy_password">Proxy password</label>
+                        <input class="form-control" value="{{ userShopee.proxy_password }}" name="proxy_password" id="proxy_password" type="password" placeholder="Senha da proxy" />
+                    </div>
+                    <div class="form-group">
+                        <label class="small mb-1" for="captcha_signature">Assinatura Captcha</label>
+                        <input class="form-control" value="{{ userShopee.captcha_signature }}" name="captcha_signature" id="captcha_signature" type="text" placeholder="Assinatura Captcha" />
+                    </div>
+                    <div class="form-group">
+                        <label class="small mb-1" for="captcha_signature">SMS API Key</label>
+                        <input class="form-control" value="{{ userShopee.sms_api_key }}" name="sms_api_key" id="sms_api_key" type="text" placeholder="SMS API Key" />
+                    </div>
+                    <a class="btn btn-primary" id="createUser">Criar usuário</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    var csrftoken = '{{ csrf_token }}';
+    var nbar = '{{ nbar }}';
+</script>
+{% include 'shopeeUserCookie.html' %}
+{% endblock %}

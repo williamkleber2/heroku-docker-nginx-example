@@ -1,0 +1,58 @@
+{% extends "index-clean.html" %}
+{% load static %}
+{% block content %}
+<div class="row">
+<div class="card text-center border-0 mx-5 mt-5" style="width: 100%;">
+    <div id="overlayPro">
+      <div class="w-100 d-flex justify-content-center align-items-center">
+        <div class="spinnerPro"></div>
+      </div>
+    </div>
+    <div class="card-header bg-transparent justify-content-center py-4"><h5 class="text-primary mb-0">Droplinkfy</h5></div>
+    <div class="card-body p-5">
+        <p class="lead">Um plano de preços fácil de entender para todos os nossos usuários! Obtenha acesso completo a todas as nossas funcionalidades.</p>
+        <div class="mb-5">
+            <div class="display-3 text-dark">{{ priceMessage|safe }}</div>
+            + 3,0% por pedido processado
+        </div>
+        <ul class="list-unstyled">
+            <li class="d-flex align-items-center justify-content-center mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle text-primary mr-2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <b>{{ freeShippingMessage }}</b>
+            </li>
+            <li class="d-flex align-items-center justify-content-center mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle text-primary mr-2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                Pedidos ilimitados
+            </li>
+            <li class="d-flex align-items-center justify-content-center mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle text-primary mr-2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                Aumente seu faturamento em até 3x
+            </li>
+            <li class="d-flex align-items-center justify-content-center mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle text-primary mr-2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                Criação de contas com apenas 1 clique
+            </li>
+            <li class="d-flex align-items-center justify-content-center mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle text-primary mr-2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                Suporte dedicado todos os dias por whatsapp
+            </li>
+            <li class="d-flex align-items-center justify-content-center mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle text-primary mr-2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                Porcentagem sobre o valor do pedido no shopify
+            </li>
+            <li class="d-flex align-items-center justify-content-center mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle text-primary mr-2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                Processamento automático no shopify
+            </li>
+        </ul>
+        <a href="#" id="buy_now_btn" class="btn btn-primary" type="button" style=" margin-top: 50px; padding-right: 30px; padding-bottom: 20px; padding-top: 20px; padding-left: 30px;">
+            Contratar Plano
+        </a>
+    </div>
+</div>
+</div>
+<script>var csrftoken = '{{ csrf_token }}';</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" crossorigin="anonymous"></script >
+<script src="https://js.stripe.com/v3/"></script>
+<script src="{% static 'functions/stripeApi.js' %}"></script>
+{% endblock %}

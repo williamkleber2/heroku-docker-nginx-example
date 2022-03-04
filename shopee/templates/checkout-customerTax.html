@@ -1,0 +1,20 @@
+{% extends "auth-index.html" %}
+{% load static %}
+{% block content %}
+<div class="card text-center border-0">
+    <div id="overlayPro">
+      <div class="w-100 d-flex justify-content-center align-items-center">
+        <div class="spinnerPro"></div>
+      </div>
+    </div>
+    <div class="card-header bg-transparent justify-content-center py-4"><h5 class="text-primary mb-0">Droplinkfy - Faturamento</h5></div>
+    <div class="card-body p-5">
+        <p class="lead">Precisamos que você preencha os dados de faturamento do seu cadastro. Eles serão usados para emissão de nota fiscal !</p>
+        <p class="lead">Depois de clicar em continuar vá em -> Dados do faturamento -> Atualizar informações -> Preencha todos os dados
+        <p class="lead">Caso não consiga, segue o link do manual -> <a href="/manual/faturamento/" target="_blank">clique aqui</a> </p>
+        <a href="/portal" class="btn btn-primary" id="addTaxInfo" type="button" style=" margin-top: 50px; padding-right: 30px; padding-bottom: 20px; padding-top: 20px; padding-left: 30px;">Continuar</a>
+    </div>
+</div>
+<script>var csrftoken = '{{ csrf_token }}';</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" crossorigin="anonymous"></script >
+{% endblock %}

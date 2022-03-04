@@ -1,0 +1,25 @@
+# Changelog Droplinkfy
+
+## 2021-08-24
+
+### Adiciona fluxo de Login com Stripe
+
+No settings foi adicionado a configuração `MESSAGE_STORAGE` para persistir as mensagens entre redirecionamentos e uma biblioteca para lidar com CPF e CNPJ no Django.
+
+Duas novas rotas adicionadas:
+- **/billing_data/**: Cria um novo registro na tabela shopee_userbillingdata e atualiza o Customer no Stripe.
+- **/register/** - Cadastra um novo usuário no Droplinkfy.
+
+## 2021-08-18
+
+### Adiciona botão de Login/Reativar na página de Usuários Shopee para extensão
+
+No settings foi adicionado a configuração `SESSION_COOKIE_SAMESITE = None` para compartilhar os cookies de autenticação no fetch.
+
+Duas novas rotas adicionadas:
+- **/reactivateGoogleAccount/**: Espera o spc_ec a ser atualizado e email do usershopee referente.
+- **/userShopeeCredentials/** - Recebe o email do usershopee e retorna o SPC_EC e SPC_F para Login.
+
+#### Novas Variavéis Ambiente
+- **REST_GATEWAY_INFO_LOGIN_USERSHOPEE**: Endereço da API Gateway da AWS Lambda getLoginInfoShopee.
+- **REST_GATEWAY_INFO_LOGIN_USERSHOPEE_API_KEY**:API Key da API Gateway da AWS Lambda getLoginInfoShopee.
