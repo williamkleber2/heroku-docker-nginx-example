@@ -8,8 +8,14 @@
 		"UPSTREAM_SERVER1": {
 			"description": "URL of upstream server to which all requests should be proxied"
 		},
+    "UPSTREAM_ROUTER1": {
+			"description": "server route that to make p proxy"
+		},
 		"UPSTREAM_SERVER2": {
 			"description": "URL of upstream server to which all requests should be proxied"
+		},
+    "UPSTREAM_ROUTER2": {
+			"description": "server route that to make p proxy"
 		}
 	},
   "stack": "container"

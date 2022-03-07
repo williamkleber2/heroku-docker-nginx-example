@@ -2,11 +2,11 @@ server {
   listen $PORT default_server;
 
   
-  location /about {
+  location $UPSTREAM_ROUTER1 {
         proxy_pass $UPSTREAM_SERVER1;
     }
 
-  location / {
+  location $UPSTREAM_ROUTER2 {
         proxy_pass $UPSTREAM_SERVER2;
     }
 }
