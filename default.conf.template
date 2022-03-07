@@ -3,7 +3,7 @@ server {
 
   
   location /about {
-        proxy_pass https://droplinkfy.vercel.app/about;
+        proxy_pass $UPSTREAM_SERVER1;
     }
 
   location / {
