@@ -17,6 +17,7 @@ You will need to create a Heroku account and install the Heroku CLI, eg.
 
 ```
 git clone git@github.com:rjoonas/heroku-docker-nginx-example.git
+
 cd heroku-docker-nginx-example
 heroku container:login
 heroku create

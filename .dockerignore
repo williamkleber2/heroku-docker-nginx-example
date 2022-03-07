@@ -3,3 +3,5 @@
 *.md
 *.yml
 app.json
+*.pyc
+ 
