@@ -3,10 +3,10 @@ server {
 
   
   location /about {
-        proxy_pass ${UPSTREAM_SERVER1};
+        proxy_pass $UPSTREAM_SERVER1;
     }
 
   location / {
-        proxy_pass ${UPSTREAM_SERVER2};
+        proxy_pass $UPSTREAM_SERVER2;
     }
 }
