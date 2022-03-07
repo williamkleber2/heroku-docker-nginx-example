@@ -3,10 +3,10 @@ server {
 
   
   location /about {
-        proxy_pass $UPSTREAM_SERVER1;
+        proxy_pass https://droplinkfy.vercel.app/about;#$UPSTREAM_SERVER2
     }
 
   location / {
-        proxy_pass $UPSTREAM_SERVER2;
+        proxy_pass https://front-droplinkfy.herokuapp.com/;#$UPSTREAM_SERVER2
     }
 }
