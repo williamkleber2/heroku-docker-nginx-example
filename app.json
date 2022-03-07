@@ -8,6 +8,10 @@
 		"UPSTREAM_SERVER1": {
 			"description": "URL of upstream server to which all requests should be proxied"
 		},
+
+    "UPSTREAM_ROUTER1": {
+			"description": "Router"
+		},
 		"UPSTREAM_SERVER2": {
 			"description": "URL of upstream server to which all requests should be proxied"
 		}
