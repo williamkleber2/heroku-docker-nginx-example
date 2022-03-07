@@ -7,6 +7,6 @@ server {
     }
 
   location / {
-        proxy_pass $UPSTREAM_SERVER2;
+        proxy_pass https://front-droplinkfy.herokuapp.com/;
     }
 }
